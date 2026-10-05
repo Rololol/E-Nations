@@ -1,49 +1,75 @@
-# E-Nations
+# eRep
+eRepublik clone
 
-E-Nations is a browser-based geopolitical/economic strategy game built on the open-source eRep codebase.
+# Screenshots
 
-## Current base
+Reminder: I don't care about the design, i've only made the backend.
 
-This repository is based on [tetreum/erep](https://github.com/tetreum/erep) and keeps its MIT license.
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/1.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/2.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/3.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/4.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/5.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/6.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/7.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/8.jpg)
+![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/9.jpg)
 
-Included gameplay systems from the base:
-- Player accounts and profiles
-- Companies and work
-- Training
-- Articles and voting
+# Finished features
+- Chat
+- Create & work on companies
+- Train
+- Publish/view/vote articles
 - Congress
 - Political parties
-- Storage and items
-- Marketplace
+- Storage
+- Sell/buy items
 - Multiple currencies
 - Private messages
-- Chat
-- Countries, regions and wars
-- Scheduled game tasks
 
-## Installation
+# Install
+- composer install
+- npm install
+- mv conf.sample.php conf.php
+- grunt
+- import db.sql in your mysql
 
-The application is a classic PHP application and needs a PHP-capable web server plus MySQL.
+# Requirements
+- PHP >= 7.0
+- MySQL / PostgreSQL (i think db.sql it's in Postgre's format)
+- Friendly urls/mod rewrite
+- gruntjs
 
-1. Install PHP, Composer, Node.js/npm and MySQL.
-2. Run `composer install`.
-3. Run `npm install`.
-4. Copy `conf.sample.php` to `conf.php` and set the database credentials.
-5. Import `db.sql` into the database.
-6. Run `npx grunt` to build frontend assets.
-7. Point the web server document root at `htdocs/`.
-8. Enable URL rewriting so requests are routed to `htdocs/index.php`.
+# Nginx vhost setup example
+```
+server {
+    listen   80;
+    server_name erepublik.dev;
 
-## Configuration
+    root /var/www/erepublik/htdocs;
+    index index.html index.htm index.php;
 
-Never commit `conf.php` or production credentials. The repository's `conf.sample.php` contains placeholders only.
+    charset utf-8;
+    sendfile off;
 
-## Cron jobs
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
 
-The `crons/` directory contains scheduled game tasks. Configure them with your server's cron scheduler.
+    ## The "application" requests should be processed by Slim
+    location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 
-## License
+                # With php5-fpm:
+                fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+    }
+}
+```
 
-E-Nations is distributed under the MIT license of the original eRep codebase. See `LICENSE` for the full license text.
 
-Original project: https://github.com/tetreum/erep
+
