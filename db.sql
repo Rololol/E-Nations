@@ -6,7 +6,7 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-CREATE DATABASE `erepublik` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `erepublik` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `erepublik`;
 
 DROP TABLE IF EXISTS `article_votes`;
