@@ -1,29 +1,27 @@
 <?php
 
-ini_set('display_errors', 1);
+ini_set('display_errors', '1');
 error_reporting(E_ALL & ~E_NOTICE);
 
 define('APP_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
 return [
-    "mysql" => [
+    'mysql' => [
         'driver' => 'mysql',
-        'host' => 'localhost',
-        'database' => 'erepublik',
-        'username' => 'root',
-        'password' => 'PASSWORD',
-        'charset'   => 'utf8',
+        'host' => getenv('ENATIONS_DB_HOST') ?: 'localhost',
+        'database' => getenv('ENATIONS_DB_NAME') ?: 'erepublik',
+        'username' => getenv('ENATIONS_DB_USER') ?: 'root',
+        'password' => getenv('ENATIONS_DB_PASSWORD') ?: '',
+        'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'prefix'    => '',
+        'prefix' => '',
     ],
-    "password_hash" => "!·$%&3456jsdehg..",
-    'mode' => 'development',
+    'password_hash' => getenv('ENATIONS_PASSWORD_HASH') ?: 'change-this-password-salt',
+    'mode' => getenv('ENATIONS_MODE') ?: 'development',
     'displayErrorDetails' => true,
     'debug' => true,
     'cookies.encrypt' => false,
-    'cookies.secret_key' => '45r67t4e56uyhtagdfhg-.khj',
-    'cookies.cipher' => MCRYPT_RIJNDAEL_256,
-    'cookies.cipher_mode' => MCRYPT_MODE_CBC,
+    'cookies.secret_key' => getenv('ENATIONS_COOKIE_SECRET') ?: 'change-this-cookie-secret',
     'cookies.path' => '/',
-    'cookies.domain' => "erepublik.dev",
+    'cookies.domain' => getenv('ENATIONS_COOKIE_DOMAIN') ?: '',
 ];
