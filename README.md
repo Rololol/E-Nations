@@ -58,3 +58,13 @@ The `crons/` directory contains scheduled game tasks such as elections, law prop
 ## License
 
 The original eRep code is distributed under the MIT license. E-Nations keeps the original license notice and is developed as a derivative project.
+
+## Docker
+
+The fastest way to run the game is:
+
+```bash
+docker compose up --build
+```
+
+Then open `http://localhost:8080`. MariaDB is initialized automatically from `db.sql` on the first run.
