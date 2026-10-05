@@ -1,75 +1,60 @@
-# eRep
-eRepublik clone
+# E-Nations
 
-# Screenshots
+E-Nations is a browser-based political, economic and social strategy game built on the open-source eRep codebase.
 
-Reminder: I don't care about the design, i've only made the backend.
+## Included gameplay
 
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/1.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/2.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/3.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/4.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/5.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/6.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/7.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/8.jpg)
-![Image](https://raw.githubusercontent.com/tetreum/erep/master/screenshots/9.jpg)
-
-# Finished features
-- Chat
-- Create & work on companies
-- Train
-- Publish/view/vote articles
-- Congress
-- Political parties
+- Player registration and login
+- Chat and private messages
+- Companies and work
+- Training
+- Articles and voting
+- Congress and political parties
 - Storage
-- Sell/buy items
+- Marketplace and item trading
 - Multiple currencies
-- Private messages
+- Country and regional systems
+- Cron jobs for scheduled game logic
 
-# Install
-- composer install
-- npm install
-- mv conf.sample.php conf.php
-- grunt
-- import db.sql in your mysql
+## Requirements
 
-# Requirements
-- PHP >= 7.0
-- MySQL / PostgreSQL (i think db.sql it's in Postgre's format)
-- Friendly urls/mod rewrite
-- gruntjs
+- PHP 7.x or a compatible PHP runtime for the legacy dependency stack
+- MySQL/MariaDB
+- Composer
+- Node.js + npm
+- Apache with mod_rewrite or Nginx
+- The web server document root must point to `htdocs/`
 
-# Nginx vhost setup example
-```
-server {
-    listen   80;
-    server_name erepublik.dev;
+> This repository is a PHP application and is not a Vercel/Next.js application.
 
-    root /var/www/erepublik/htdocs;
-    index index.html index.htm index.php;
+## Local setup
 
-    charset utf-8;
-    sendfile off;
+1. Install PHP, Composer, Node.js and MySQL/MariaDB.
+2. Run `composer install`.
+3. Run `npm install`.
+4. Copy `conf.sample.php` to `conf.php` if you want a separate local configuration.
+5. Create/import the database from `db.sql`.
+6. Run `grunt` to build the frontend assets.
+7. Configure Apache/Nginx so `htdocs/` is the public document root.
+8. Make sure PHP can execute `htdocs/index.php`.
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
+### Database configuration
 
-    ## The "application" requests should be processed by Slim
-    location ~ \.php$ {
-                try_files $uri =404;
-                fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+The committed `conf.php` uses environment variables when present:
 
-                # With php5-fpm:
-                fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-                fastcgi_index index.php;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                include fastcgi_params;
-    }
-}
-```
+- `ENATIONS_DB_HOST`
+- `ENATIONS_DB_NAME`
+- `ENATIONS_DB_USER`
+- `ENATIONS_DB_PASSWORD`
+- `ENATIONS_COOKIE_DOMAIN`
+- `ENATIONS_PASSWORD_HASH`
 
+For production, set these values in the hosting environment instead of committing credentials.
 
+## Cron jobs
 
+The `crons/` directory contains scheduled game tasks such as elections, law proposals and chat cleanup. Configure the scripts in your server's cron scheduler.
+
+## License
+
+The original eRep code is distributed under the MIT license. E-Nations keeps the original license notice and is developed as a derivative project.
