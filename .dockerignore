@@ -1,0 +1,6 @@
+vendor
+node_modules
+.git
+.idea
+tmp/cache
+conf.php
